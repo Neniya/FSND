@@ -8,16 +8,20 @@ At this game you should give answers to questions from several categories. For e
 
  The application:
 
-1) Displays questions - both all questions and by category. You can see the question, category, and difficulty rating by default and can show/hide the answer. 
-[Main page](/img/triviaMain.png)
-2) You can delete questions. Before deleting questions from database you should confirm this action.
-[Delete question](/img/deleteQuestion.png)
-3) You can add new questions. All created questions have to include questions and answers text.
-[Add question](/img/addQuestion.png)
-4) You can search for questions by search term. And by clicking on the category
-[Search questions](/img/searchQuestions.png)
-5) Play the quiz game, randomizing either all questions or within a specific category. 
-[Play game. choose category](/img/ChooseCategory.png)
+1. Displays questions - both all questions and by category. You can see the question, category, and difficulty rating by default and can show/hide the answer. 
+![Main page](/img/triviaMain.png)
+
+2. You can delete questions. Before deleting questions from database you should confirm this action.
+![Delete question](/img/deleteQuestion.png)
+
+3. You can add new questions. All created questions have to include questions and answers text.
+![Add question](/img/addQuestion.png)
+
+4. You can search for questions by search term. And by clicking on the category
+<img src="/img/searchQuestions.png" width="250"/>
+
+5. Play the quiz game, randomizing either all questions or within a specific category. 
+![Play game. choose category](/img/ChooseCategory.png)
 
 Answer to questions and the application will count your score.
 **Have fun!** 
@@ -58,18 +62,17 @@ The API will return three error types when requests fail:
 
 ## Endpoints
 
+* [GET '/categories'](#get-categories)
+* [GET '/questions](#get-questions)
+* [GET '/categories/&lt;int:category_id&gt;/questions'](#get-categoriesintcategory_idquestions)
+* [DELETE '/questions/&lt;int:question_id&gt;'](#delete-questionsintquestion_id)
+* [POST '/questions/add'](#post-questionsadd)
+* [POST '/questions'](#post-questions)
+* [POST '/quizzes'](#post-quizzes)
 
-[GET '/categories][1]
-[GET '/questions][2]
-[GET '/categories/<int:category_id>/questions'][3]
-[DELETE '/questions/<int:question_id>'][4]
-[POST '/questions/add'][5]
-[POST '/questions'][6]
-[POST '/quizzes'][7]
+### int_category
 
-
-
-### [1]: GET '/categories'
+### GET '/categories'
 
 * General:
     * Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
@@ -77,7 +80,8 @@ The API will return three error types when requests fail:
     * Returns: Success value and an object with a single key, categories, that contains an object of id: category_string key:value pairs. 
 * Sample: `curl http:/127.0.0.1:5000/categories`
 
-` "categories": {
+```
+"categories": {
 "1": "Science", 
 "2": "Art", 
 "3": "Geography", 
@@ -85,15 +89,17 @@ The API will return three error types when requests fail:
 "5": "Entertainment", 
 "6": "Sports"
 }, 
-"success": true`
+"success": true
+```
 
-### [2]: GET '/questions'
+### GET '/questions'
 * General:
     * Fetches a list of question objects. The result is paginated in a group of 10. Include a request argument to choose page number, starting from 1. 
     * Request Arguments: None
     * Returns: Success value, a list of question objects, an object with a single key, categories, that contains an object of id: category_string key:value pairs, current category and the total number of questions
 * Sample: `curl http:/127.0.0.1:5000/questions`
-`"categories": {
+```
+"categories": {
 "1": "Science", 
 "2": "Art", 
 "3": "Geography", 
@@ -175,15 +181,18 @@ The API will return three error types when requests fail:
 }
 ], 
 "success": true, 
-"total_questions": 19`
+"total_questions": 19
+```
 
-### [3]: GET '/categories/<int:category_id>/questions'
+### GET '/categories/<int:category_id>/questions'
 * General:
   * Fetches a list of question objects based on a category. The result is paginated in a group of 10. Include a request argument to choose page number, starting from 1. 
   * Arguments: category_id
   * Returns: Success value, a list of question objects based on a current page number to update the front end, an object with a single key, categories, that contains an object of id: category_string key:value pairs, current category and the total number of questions.  
 * Sample: `curl http:/127.0.0.1:5000/categories/3/questions`
-`"categories": {
+`
+```
+"categories": {
 "1": "Science", 
 "2": "Art", 
 "3": "Geography", 
@@ -230,15 +239,17 @@ The API will return three error types when requests fail:
 }
 ], 
 "success": true, 
-"total_questions": 5`
+"total_questions": 5
+```
 
-### [4]: DELETE '/questions/<int:question_id>'
+### DELETE '/questions/<int:question_id>'
 * General:
   * Deletes the question of the given ID if it exists.
   * Arguments: question_id
   * Returns: Success value, a list of question objects based on a current page number to update the front end, an object with a single key, categories, that contains an object of id: category_string key:value pairs, current category and the total number of questions.  
 * Sample: `curl -X DELETE http:/127.0.0.1:5000/questions/5?page=1`
-`"categories": {
+```
+"categories": {
 "1": "Science", 
 "2": "Art", 
 "3": "Geography", 
@@ -320,24 +331,28 @@ The API will return three error types when requests fail:
 }
 ], 
 "success": true, 
-"total_questions": 18`
+"total_questions": 18
+```
 
-### [5]: POST '/questions/add'
+### POST '/questions/add'
 * General:
     * Creates a new question.
     * Request Arguments: question(string, text of new question), answer(string, answer to the question) difficulty(num, from 1 to 5), category(string, id of categiry)
     * Returns: Success value and the total number of questions.   
 * Sample: `curl http:/127.0.0.1:5000/questions/add -X POST -H "Content-Type: application/json" -d '{"question": "How many stripes are there on the US flag?","answer": '13', "category": '4', "difficulty": 4}'`
-`"success": true, 
-"total_questions": 18`
+```
+"success": true, 
+"total_questions": 18
+```
 
-### [6]: POST '/questions'
+### POST '/questions'
 * General:
   * Fetches a list of question objects based on a search term. The result is paginated in a group of 10. Include a request argument to choose page number, starting from 1. 
   * Request Arguments: searchTerm(string)
   * Returns: Success value, a list of question objects based on the current page number to update the front end, an object with a single key, categories, that contains an object of id: category_string key:value pairs, current category and the total number of questions. 
 * Sample: `curl http:/127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"searchTerm": "How"}'`
-`"categories": {
+```
+"categories": {
 "1": "Science", 
 "2": "Art", 
 "3": "Geography", 
@@ -370,19 +385,29 @@ The API will return three error types when requests fail:
 }
 ], 
 "success": true, 
-"total_questions": 3`
+"total_questions": 3
+```
 
-### [7]: POST '/quizzes'
+### POST '/quizzes'
 * General:
   * Fetches a random questions object based on a category, or all categories to play the quiz
-  * Request Arguments: previous_questions (list of questions IDs)
-  * Returns: Success valuer and question is not one of the previous questions.  
-* Sample: `curl http:/127.0.0.1:5000/quizzes' -X POST -H "Content-Type: application/json" -d '{"searchTerm": "How"}'`
-
+  * Request Arguments: previous_questions (list of questions IDs), quiz_category(object category {"type": (str), "id": (str)}) 
+  * Returns: Success value and question is not one of the previous questions.  
+* Sample: `curl http:/127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [], "quiz_category": {"type": "Geography","id": "3"}}'`
+```
+"question": {
+    "answer": "Agra", 
+    "category": "3", 
+    "difficulty": 2, 
+    "id": 15, 
+    "question": "The Taj Mahal is located in which Indian city?"
+  }, 
+  "success": true
+```
 
 
 ## **Authors**
-Udasity, Kotova Evgeniia
+Udacity, Kotova Evgeniia
 
 ## **Acknowledgments**
 The awesome team at Udacity for the idea of this application and for the knowledge that helps me to realize this game. 
